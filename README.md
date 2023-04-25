@@ -27,5 +27,5 @@ The dockerfiles:
 ## How to execute it
 
 * Have docker installed
-* Run `./run.sh <method> [version]` where method is one of the methods (build/launchpad/notesalexp) and version is the version of ubuntu (default is latest, but every tag to the ubuntu docker image is valid)
+* Run `./run.sh <method> [version]` (e.g. `./run.sh build bionic`) where method is one of the methods (build/launchpad/notesalexp) and version is the version of ubuntu (default is latest, but every tag to the ubuntu docker image is valid)
 
