@@ -15,6 +15,7 @@ The version in question of tesseract is **5.3.0**.
 * [launchpad](./launchpad)
 * [build](./build)
 * [leptonica](./leptonica)
+* [raw-build](./raw-build)
 
 ## Dockerfiles
 

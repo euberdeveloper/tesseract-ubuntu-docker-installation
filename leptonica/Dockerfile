@@ -23,13 +23,3 @@ WORKDIR /leptonica
 RUN ./autogen.sh \
     && CFLAGS="$CFLAGS -g -O2 -fPIC" LDFLAGS="$LDFLAGS -fPIC" ./configure --disable-shared \
     && make
-# # Move to root
-# WORKDIR /
-
-# # List all langs
-# RUN tesseract --list-langs
-
-# # Copy sample file
-# COPY sample.png /assets/sample.png
-
-# CMD ["tesseract", "/assets/sample.png", "-", "-l", "ita"]
