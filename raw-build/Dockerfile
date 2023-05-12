@@ -10,7 +10,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update -y
 
 # Install dependencies and manpages
-RUN apt-get install -y automake ca-certificates g++ git libtool make pkg-config \
+RUN apt-get install -y automake ca-certificates g++ git libtool make pkg-config libgif-dev libtiff-dev libpng-dev \
     && apt-get install -y --no-install-recommends asciidoc docbook-xsl xsltproc
 
 # Clone the Leptonica's Github repo
@@ -21,21 +21,22 @@ WORKDIR /leptonica
 
 # Build leptonica
 RUN ./autogen.sh \
-    && CFLAGS="$CFLAGS -g -O2 -fPIC" LDFLAGS="$LDFLAGS -fPIC" ./configure --disable-shared \
-    && make
+    && CFLAGS="$CFLAGS -g -O2 -fPIC" LDFLAGS="$LDFLAGS -fPIC" ./configure --disable-shared --prefix $HOME/local \
+    && make \
+    && make install
 
 WORKDIR /
 
 # Clone the Tesseract's Github repo
-RUN git clone --depth 1 --branch 5.3.0 https://github.com/tesseract-ocr/tesseract.git
+RUN git clone --depth 1 --branch 5.3.1 https://github.com/tesseract-ocr/tesseract.git
 
 # Move to the root of the Tesseract's repo
 WORKDIR /tesseract
 
 # Build tesseract
-RUN ./autogen.sh
-RUN LIBLEPT_HEADERSDIR=/leptonica/src LEPTONICA_LIBS=/leptonica/src/.libs PKG_CONFIG_PATH="$PKG_CONFIG_PATH:/leptonica" LDFLAGS="$LDFLAGS -L /leptonica/src/.libs" ./configure --with-extra-libraries=/leptonica --prefix=$HOME/local/ --disable-static --disable-graphics
-RUN make \
+RUN ./autogen.sh \
+    && PKG_CONFIG_PATH=$HOME/local/lib/pkgconfig LIBLEPT_HEADERSDIR=$HOME/local/include ./configure --with-extra-libraries=$HOME/local/lib --disable-graphics --disable-static \
+    && make \
     && make install \
     && ldconfig
 
@@ -52,8 +53,9 @@ RUN apt-get install -y python3-pip
 RUN pip3 install -r requirements.txt
 
 # Download the needed languages
+RUN mkdir -p /usr/local/share/tessdata/
 RUN python3 tessdata_downloader.py -r tessdata -l eng \
-    && mv eng.traineddata /usr/local/share/tessdata
+    && mv eng.traineddata /usr/local/share/tessdata/
 RUN python3 tessdata_downloader.py -r tessdata -l ita \
     && mv ita.traineddata /usr/local/share/tessdata/ 
 RUN python3 tessdata_downloader.py -r tessdata -l deu \
