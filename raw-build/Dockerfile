@@ -21,7 +21,7 @@ WORKDIR /leptonica
 
 # Build leptonica
 RUN ./autogen.sh \
-    && CFLAGS="$CFLAGS -g -O2 -fPIC" LDFLAGS="$LDFLAGS -fPIC" ./configure --disable-shared --prefix $HOME/local \
+    && CFLAGS="$CFLAGS -g -O2 -fPIC" LDFLAGS="$LDFLAGS -fPIC" ./configure --disable-shared --prefix $HOME/local/leptonica \
     && make \
     && make install
 
@@ -35,7 +35,7 @@ WORKDIR /tesseract
 
 # Build tesseract
 RUN ./autogen.sh \
-    && PKG_CONFIG_PATH=$HOME/local/lib/pkgconfig LIBLEPT_HEADERSDIR=$HOME/local/include ./configure --with-extra-libraries=$HOME/local/lib --disable-graphics --disable-static \
+    && PKG_CONFIG_PATH=$HOME/local/leptonica/lib/pkgconfig LIBLEPT_HEADERSDIR=$HOME/local/leptonica/include ./configure --with-extra-libraries=$HOME/local/leptonica/lib --disable-graphics --disable-static \
     && make \
     && make install \
     && ldconfig
