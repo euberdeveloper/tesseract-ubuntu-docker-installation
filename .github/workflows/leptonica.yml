@@ -1,0 +1,20 @@
+name: Leptonica
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  docker_build:
+    name: Build docker image with latest Ubuntu
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Build and run image
+        run: ./run.sh leptonica latest no_tty

@@ -31,3 +31,6 @@ The dockerfiles:
 * Have docker installed
 * Run `./run.sh <method> [version] [no_tty]` (e.g. `./run.sh build bionic`) where method is one of the methods (build/launchpad/notesalexp) and version is the version of ubuntu (default is latest, but every tag to the ubuntu docker image is valid)
 
+## Action
+
+There is a Github Action that tries all the docker images, to check if they really work
