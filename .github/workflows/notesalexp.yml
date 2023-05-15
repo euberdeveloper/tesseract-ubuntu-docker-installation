@@ -1,4 +1,4 @@
-name: Notsesalexp
+name: Notesalexp
 
 on:
   push:
@@ -17,4 +17,4 @@ jobs:
         uses: docker/setup-buildx-action@v2
 
       - name: Build and run image
-        run: ./run.sh notsesalexp latest no_tty
+        run: ./run.sh notesalexp latest no_tty
